@@ -22,10 +22,19 @@ static_resources:
   clusters:
   - name: backend_0
     connect_timeout: 0.25s
+    type: EDS
+    lb_policy: ROUND_ROBIN
+    eds_cluster_config:
+      eds_config:
+        api_config_source:
+          api_type: REST
+          cluster_names: config
+          refresh_delay: 1s
+  - name: config
+    connect_timeout: 0.25s
     type: STATIC
     lb_policy: ROUND_ROBIN
     hosts:
     - socket_address:
-        address: 192.168.0.39
-        port_value: 80
-
+        address: 127.0.0.1
+        port_value: 8000
