@@ -17,6 +17,7 @@ dynamic_resources:
       cluster_names: xds_cluster
       refresh_delay: 1s
 
+
 static_resources:
   clusters:
   - name: xds_cluster
@@ -26,4 +27,4 @@ static_resources:
     hosts:
     - socket_address:
         address: 127.0.0.1
-        port_value: 8000
+        port_value: 8080

@@ -4,7 +4,7 @@ run:
 		--service-cluster testcluster \
 		--service-node $$(hostname)
 
-main: cmd/main.go
+main: cmd/main.go pkg/controller/*.go
 	go build cmd/main.go
 
 run-configurator: main

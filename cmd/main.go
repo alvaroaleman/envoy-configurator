@@ -3,14 +3,16 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/alvaroaleman/envoy-configurator/pkg/controller"
 )
 
 func main() {
-	http.HandleFunc("/v2/discovery:endpoints", edsHandler)
-	http.HandleFunc("/v2/discovery:listeners", ldsHandler)
-	http.HandleFunc("/v2/discovery:clusters", cdsHandler)
-	http.HandleFunc("/", debug)
-	http.ListenAndServe(":8000", nil)
+	stopChannel := make(chan struct{})
+	controller := controller.New("192.168.0.39", []int{80, 443}, "127.0.0.1:8080")
+	controller.MustRun()
+
+	<-stopChannel
 }
 
 const (
