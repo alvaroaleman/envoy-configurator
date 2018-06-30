@@ -7,5 +7,5 @@ run:
 main: cmd/main.go
 	go build cmd/main.go
 
-eds: main
+run-configurator: main
 	./main

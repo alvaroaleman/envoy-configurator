@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", dump)
+	http.HandleFunc("/v2/discovery:endpoints", edsHandler)
+	http.HandleFunc("/", debug)
 	http.ListenAndServe(":8000", nil)
 }
 
@@ -38,7 +39,15 @@ const hardCodedEdsAnswer = `
 }
 `
 
-func dump(w http.ResponseWriter, r *http.Request) {
+func edsHandler(w http.ResponseWriter, _ *http.Request) {
+	_, err := w.Write([]byte(hardCodedEdsAnswer))
+	if err != nil {
+		fmt.Printf("Error writing response: %v", err)
+	}
+	return
+}
+
+func debug(w http.ResponseWriter, r *http.Request) {
 	var body []byte
 	_, err := r.Body.Read(body)
 	r.Body.Close()
@@ -46,9 +55,11 @@ func dump(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Error reading body: %v", err)
 		return
 	}
-	_, err = w.Write([]byte(hardCodedEdsAnswer))
-	if err != nil {
-		fmt.Errorf("Error writting response: %v", err)
-	}
+	fmt.Printf("url: %s\n", r.URL.String())
+	fmt.Printf("url: %s\n", r.URL.RawPath)
+	fmt.Printf("url: %s\n", r.URL.RawQuery)
+	fmt.Printf("url: %s\n", r.URL.Opaque)
+	fmt.Printf("url: %s\n", r.URL.RequestURI())
+	fmt.Printf("Body: %s\n", string(body))
 	return
 }
