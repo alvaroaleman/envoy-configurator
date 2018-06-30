@@ -11,19 +11,14 @@ dynamic_resources:
       api_type: REST
       cluster_names: xds_cluster
       refresh_delay: 1s
+  cds_config:
+    api_config_source:
+      api_type: REST
+      cluster_names: xds_cluster
+      refresh_delay: 1s
 
 static_resources:
   clusters:
-  - name: backend_0
-    connect_timeout: 0.25s
-    type: EDS
-    lb_policy: ROUND_ROBIN
-    eds_cluster_config:
-      eds_config:
-        api_config_source:
-          api_type: REST
-          cluster_names: xds_cluster
-          refresh_delay: 1s
   - name: xds_cluster
     connect_timeout: 0.25s
     type: STATIC

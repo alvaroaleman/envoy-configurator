@@ -8,11 +8,35 @@ import (
 func main() {
 	http.HandleFunc("/v2/discovery:endpoints", edsHandler)
 	http.HandleFunc("/v2/discovery:listeners", ldsHandler)
+	http.HandleFunc("/v2/discovery:clusters", cdsHandler)
 	http.HandleFunc("/", debug)
 	http.ListenAndServe(":8000", nil)
 }
 
 const (
+	hardCodedCdsAnswer = `
+{
+  "resources": [
+    {
+      "@type": "type.googleapis.com/envoy.api.v2.Cluster",
+      "connect_timeout": "0.25s",
+      "eds_cluster_config": {
+        "eds_config": {
+          "api_config_source": {
+            "api_type": "REST",
+            "cluster_names": "xds_cluster",
+            "refresh_delay": "1s"
+          }
+        }
+      },
+      "lb_policy": "ROUND_ROBIN",
+      "name": "backend_0",
+      "type": "EDS"
+    }
+  ],
+  "version_info": "0"
+}
+	`
 	hardCodedEdsAnswer = `
 {
   "resources": [
@@ -73,6 +97,13 @@ const (
 
 				`
 )
+
+func cdsHandler(w http.ResponseWriter, _ *http.Request) {
+	if _, err := w.Write([]byte(hardCodedCdsAnswer)); err != nil {
+		fmt.Printf("Error writing cds response: %v", err)
+	}
+	return
+}
 
 func edsHandler(w http.ResponseWriter, _ *http.Request) {
 	_, err := w.Write([]byte(hardCodedEdsAnswer))
