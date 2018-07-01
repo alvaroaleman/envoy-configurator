@@ -1,0 +1,24 @@
+[ for_a_server ]
+# for example, a HTTPS server
+basicConstraints	= CA:FALSE
+subjectKeyIdentifier	= hash
+authorityKeyIdentifier  = keyid,issuer
+keyUsage		= digitalSignature, keyEncipherment, keyAgreement
+extendedKeyUsage	= serverAuth
+
+[ for_a_client ]
+# passwordless signing in for clients using browsers,
+# or sending (and receiving) S/MIME encrypted emails
+basicConstraints	= CA:FALSE
+subjectKeyIdentifier	= hash
+authorityKeyIdentifier  = keyid,issuer
+keyUsage		= digitalSignature, keyEncipherment, keyAgreement, nonRepudiation, dataEncipherment
+extendedKeyUsage	= clientAuth, emailProtection, msSmartcardLogin
+
+[ for_a_node ]
+# for example, two nodes communicating with each other
+basicConstraints	= CA:FALSE
+subjectKeyIdentifier	= hash
+authorityKeyIdentifier  = keyid,issuer
+keyUsage		= digitalSignature, keyEncipherment, keyAgreement
+extendedKeyUsage	= serverAuth, clientAuth

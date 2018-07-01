@@ -4,8 +4,8 @@ run:
 		--service-cluster testcluster \
 		--service-node $$(hostname)
 
-main: cmd/main.go pkg/controller/*.go
+main: $(shell find . -name '*.go')
 	go build cmd/main.go
 
 run-configurator: main
-	./main
+	./main -cafile CA.crt -crtfile server.crt -keyfile server.key
