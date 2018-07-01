@@ -98,7 +98,7 @@ func (c *Handler) updateRequestHandler(w http.ResponseWriter, r *http.Request) {
 	if request.Ports != nil &&
 		c.envoyController.Ports != nil &&
 		!reflect.DeepEqual(request.Ports, c.envoyController.Ports) {
-		log.Printf("Updating ports from %v to %v", request.Ports, c.envoyController.Ports)
+		log.Printf("Updating ports from %v to %v", c.envoyController.Ports, request.Ports)
 		c.envoyController.Ports = request.Ports
 	}
 
