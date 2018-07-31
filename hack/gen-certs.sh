@@ -35,7 +35,7 @@ function create_CA() {
 	makecsr "${CApath}" "${CAsubj}"
 	# We issue ourselves a self-signed cert for the CA
 	# without any key constraints or extended usages (,=all permitted):
-	openssl req -new -x509 -sha384 -set_serial 1 -days 3 \
+	openssl req -new -x509 -sha384 -set_serial 1 -days 30000 \
 		-key "${CApath}.key" -subj "${CAsubj}" -out "${CApath}.crt"
 }
 
@@ -48,7 +48,7 @@ function issue_cert() {
 
 	## Your in-house CA would use:
 	##     openssl ca -sha384 -config … -name … -extensions …
-	openssl x509 -req -sha384 -set_serial ${random_serial} -days 1 \
+	openssl x509 -req -sha384 -set_serial ${random_serial} -days 30000 \
 		-CAkey "${CApath}.key" -CA "${CApath}.crt" \
 		-extfile "extensions.cnf" -extensions "for_a_node" \
 		-in "${1}.csr" -out "${1}.crt"
